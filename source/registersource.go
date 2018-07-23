@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/easyasync/easyaysnc-cli/commands"
 )
 
 //DispatchSource struct implementing Dispatch interface
@@ -17,20 +19,15 @@ type DispatchSource struct {
 
 //RouteDTO struct representing json
 type RouteDTO struct {
-	Route              Route `json:"route"`
-	WithSourceCreation bool  `json:"withSourceCreation"`
-}
-
-//Route struct representing route json
-type Route struct {
-	URL string `json:"url"`
+	Route              commands.Route `json:"route"`
+	WithSourceCreation bool           `json:"withSourceCreation"`
 }
 
 //CreateSource method to bind a route to a source
 func (dispatch DispatchSource) CreateSource(sourcename string, route string) error {
 	url := strings.Replace(dispatch.URL, ":name", sourcename, -1)
 	log.Println("DEBUG: created url ", url)
-	request := RouteDTO{Route: Route{URL: route}, WithSourceCreation: true}
+	request := RouteDTO{Route: commands.Route{URL: route}, WithSourceCreation: true}
 
 	out, err := json.Marshal(request)
 

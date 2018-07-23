@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/larse514/amazonian/cf"
-	"github.com/urfave/cli"
 )
 
 //HTTPRegisterAction Implementation of RegisterAction
@@ -20,9 +19,8 @@ type Dispatch interface {
 }
 
 //RegisterService is a method to register a service to easyasync
-func (action HTTPRegisterAction) RegisterService(c *cli.Context) error {
-	sourcename := c.Args().Get(0)
-	route := c.Args().Get(1)
+func (action HTTPRegisterAction) RegisterService(sourcename string, route string) error {
+
 	fmt.Printf("Registering source %q to route %q... \n", sourcename, route)
 
 	//create the source
@@ -40,4 +38,9 @@ func (action HTTPRegisterAction) RegisterService(c *cli.Context) error {
 	}
 
 	return nil
+}
+
+//NewRegisterAction constructor to create HTTPRegisterAction
+func NewRegisterAction(dispatch Dispatch, executor cf.Executor) *HTTPRegisterAction {
+	return &HTTPRegisterAction{dispatch, executor}
 }

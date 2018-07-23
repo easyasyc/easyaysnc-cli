@@ -2,20 +2,18 @@ package commands
 
 import (
 	"testing"
-
-	"github.com/urfave/cli"
 )
 
 type mockRegisterAction struct {
 }
 
-func (mock mockRegisterAction) RegisterService(c *cli.Context) error {
+func (mock mockRegisterAction) RegisterService(sourcename string, route string) error {
 	return nil
 }
 
 func TestRegisterNameIsCorrectValue(t *testing.T) {
-
-	command := Register()
+	action := mockRegisterAction{}
+	command := Register(action)
 
 	expected := "register"
 
